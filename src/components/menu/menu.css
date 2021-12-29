@@ -1,0 +1,19 @@
+.menu {
+    display: flex;
+    flex-direction: row;
+    background-color: #e5efff;
+    color: #3980ff;
+    align-items: center;
+}
+
+.logo {
+    text-decoration-line: none;
+}
+.grower {
+    flex-grow: 1;
+}
+
+.divisor {
+    height: 1px;
+    background-color: #d6dade;
+}

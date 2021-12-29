@@ -1,0 +1,17 @@
+.app {
+    height: 100vh;
+    overflow: auto;
+    background-color: #f2f3f5;
+    display: flex;
+    flex-direction: column;
+}
+
+.center-in-parent {
+    margin: auto;
+}
+
+.center-children {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
