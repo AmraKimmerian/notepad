@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { isEmptyString, removeIndex } from '../utils/utils'
+import { isEmptyString } from '../utils/utils'
 
 const notes = [
   {
@@ -66,22 +66,22 @@ const getNote = id => {
 
 const saveNote = noteToSave => {
   return new Promise((resolve, reject) => {
-    if (!noteToSave) {
-      reject("Can't save undefined or null note object")
-    }
     setTimeout(() => {
-      if (!noteToSave)
-        if (!isNaN(noteToSave.id)) {
-          const index = notes.findIndex(note => note.id === noteToSave.id)
-          if (index > -1) {
-            notes[index] = noteToSave
-          } else {
-            notes.push(noteToSave)
-          }
+      if (!noteToSave) {
+        reject("Can't save undefined or null note object")
+      }
+
+      if (!isNaN(noteToSave.id)) {
+        const index = notes.findIndex(note => note.id === noteToSave.id)
+        if (index > -1) {
+          notes[index] = noteToSave
         } else {
-          notes.id = uuidv4()
           notes.push(noteToSave)
         }
+      } else {
+        notes.id = uuidv4()
+        notes.push(noteToSave)
+      }
       resolve(true)
     }, 1000)
   })

@@ -1,0 +1,11 @@
+.crop {
+background-color: #3980ff;
+height: inherit;
+    overflow: hidden;
+}
+
+.crop img {
+    width: 100%;
+
+}
+

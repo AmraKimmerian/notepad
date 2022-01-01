@@ -2,7 +2,7 @@ import './app.css'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Menu from './components/menu/menu'
 import NotFound from './components/notFound'
-import Landing from './layouts/landing'
+import Landing from './layouts/landing/landing'
 import SignUp from './layouts/auth/signUp'
 import SignIn from './layouts/auth/signIn'
 import Notes from './components/notes/notes'
@@ -33,28 +33,30 @@ function App() {
         login={login}
         handleSignOut={handleSignOut}
       />
-      <Switch>
-        <Route path="/404" component={NotFound} />
-        <Route path="/landing" component={Landing} />
-        {!authorized && (
-          <Route
-            path="/signup"
-            component={() => <SignUp handleSignUp={handleSignUp} />}
-          />
-        )}
-        {!authorized && (
-          <Route
-            path="/signin"
-            component={() => <SignIn handleSignIn={handleSignIn} />}
-          />
-        )}
-        {authorized && <Route path="/notes/:noteId?" component={Notes} />}
-        <Redirect from="/" exact to={authorized ? '/notes' : '/landing'} />
-        {authorized && <Redirect from="/signin" to="/notes" />}
-        {authorized && <Redirect from="/signup" to="/notes" />}
-        {!authorized && <Redirect from="/notes" to="/" />}
-        <Redirect to="/404" />
-      </Switch>
+      <div className="content">
+        <Switch>
+          <Route path="/404" component={NotFound} />
+          <Route path="/landing" component={Landing} />
+          {!authorized && (
+            <Route
+              path="/signup"
+              component={() => <SignUp handleSignUp={handleSignUp} />}
+            />
+          )}
+          {!authorized && (
+            <Route
+              path="/signin"
+              component={() => <SignIn handleSignIn={handleSignIn} />}
+            />
+          )}
+          {authorized && <Route path="/notes/:noteId?" component={Notes} />}
+          <Redirect from="/" exact to={authorized ? '/notes' : '/landing'} />
+          {authorized && <Redirect from="/signin" to="/notes" />}
+          {authorized && <Redirect from="/signup" to="/notes" />}
+          {!authorized && <Redirect from="/notes" to="/" />}
+          <Redirect to="/404" />
+        </Switch>
+      </div>
     </div>
   )
 }

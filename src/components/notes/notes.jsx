@@ -2,7 +2,7 @@ import NoteCard from '../noteCard/noteCard'
 import { useEffect, useState } from 'react'
 import api from '../../api/api'
 import './notes.css'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import Note from '../note/note'
 import Loader from '../../loader'
 
@@ -10,6 +10,8 @@ const Notes = () => {
   const { noteId } = useParams()
   const [notes, setNotes] = useState()
   const [loading, setLoading] = useState(false)
+  const [newNote, setNewNote] = useState()
+  const history = useHistory()
 
   useEffect(() => {
     setLoading(true)
@@ -26,25 +28,62 @@ const Notes = () => {
   if (loading) {
     return <Loader />
   }
-  if (!notes) {
-    return (
-      <div className="center-in-parent no-notes center-children">
-        <div className="center-in-parent">Пока нет записок в блокноте.</div>
-        <button className="btn btn-primary m-1 center-in-parent">
-          Добавьте уже одну
-        </button>
-      </div>
-    )
+  const handleSaveNote = () => {
+    setLoading(true)
+    api
+      .saveNote(newNote)
+      .then(result => {
+        setLoading(false)
+        setNewNote(undefined)
+        if (result) {
+          history.push('/notes')
+        } else {
+          alert('Не удалось сохранить заметку')
+        }
+      })
+      .catch(error => {
+        setLoading(false)
+      })
   }
+
   return (
     <>
-      <h1 className="m-3">Notes</h1>
-      <div className="row m-3">
-        {notes.map(note => (
-          <NoteCard id={note.id} title={note.title} text={note.text} />
-        ))}
+      <div className="center-in-parent center-children note mt-3">
+        <div className="input-group mb-3">
+          <span className="input-group-text">Заголовок</span>
+          <input
+            type="text"
+            className="form-control"
+            onChange={event => {
+              setNewNote({ ...newNote, title: event.target.value })
+            }}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Текст</span>
+          <textarea
+            type="text"
+            className="form-control"
+            onChange={event => {
+              setNewNote({ ...newNote, text: event.target.value })
+            }}
+          />
+        </div>
+        <button className="btn btn-primary mb-3" onClick={handleSaveNote}>
+          Добавить
+        </button>
       </div>
-      <Link to="notes/15">Go to not existed note</Link>
+      {notes && (
+        <div className="row m-3">
+          {notes.map(note => (
+            <NoteCard id={note.id} title={note.title} text={note.text} />
+          ))}
+        </div>
+      )}
+
+      <Link to="notes/15" className="m-3">
+        Go to not existed note
+      </Link>
     </>
   )
 }

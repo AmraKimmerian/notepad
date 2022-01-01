@@ -6,6 +6,10 @@
     flex-direction: column;
 }
 
+.app .content {
+    flex: 1 1 auto;
+}
+
 .center-in-parent {
     margin: auto;
 }
@@ -13,5 +17,11 @@
 .center-children {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+
+.center-children-row {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
 }
